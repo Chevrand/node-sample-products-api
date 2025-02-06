@@ -1,8 +1,9 @@
-import { Configuration } from '../models/Configuration';
+import { IConfiguration } from '../interfaces/IConfiguration';
 
-const config: Configuration = {
-    port:1337,
-    dbUri:process.env.NODE_SAMPLE_PRODUCTS_API_DB_URI ?? ""
+const config: IConfiguration = {
+    port:3000,
+    dbUri:process.env.NODE_SAMPLE_PRODUCTS_API_DB_URI ?? "",
+    saltWorkFactor: 10
 };
 
 export default config;
