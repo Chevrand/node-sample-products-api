@@ -1,6 +1,6 @@
-import { singleton } from 'tsyringe';
+import { inject, singleton } from 'tsyringe';
 import postgres from 'postgres';
-import Database from '../utils/database';
+import Database from '../database/database';
 import UserRepository from './userRepository';
 import { UserDTO } from '../types/UserDTO';
 import { UserPostDTO } from '../types/UserPostDTO';
@@ -11,8 +11,10 @@ class UserRepositoryImpl implements UserRepository {
 
     private sql: ReturnType<typeof postgres>;
 
-    constructor() {
-        this.sql = Database.getConnection();
+    constructor(
+        @inject(Database) private readonly database: Database
+    ) {
+        this.sql = database.getConnection();
     }
 
     async getAllUsers(): Promise<UserDTO[]> {
