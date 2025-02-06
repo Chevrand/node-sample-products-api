@@ -23,6 +23,7 @@ class UserRepositoryImpl implements UserRepository {
                 id,
                 name,
                 email,
+                active,
                 created_at as "createdAt",
                 updated_at as "updatedAt"
             FROM users
@@ -35,12 +36,13 @@ class UserRepositoryImpl implements UserRepository {
                 id,
                 name,
                 email,
+                active,
                 created_at as "createdAt",
                 updated_at as "updatedAt"
             FROM users WHERE id = ${id}
         `;
 
-        if (!users.length) throw new Error('User not found'); 
+        if (!users.length) throw new Error('User not found');
 
         return users[0];
     }
@@ -63,8 +65,18 @@ class UserRepositoryImpl implements UserRepository {
         return users[0].id;
     }
 
-    async deleteUser(id: number) {
-        return await this.sql`DELETE FROM users WHERE id = ${id}`;
+    async deleteUser(id: number): Promise<void> {
+        await this.sql`
+            UPDATE users SET active = false, updated_at = NOW()
+            WHERE id = ${id}
+        `;
+    }
+
+    async activateOrDeactivateUser(id: number, active: boolean): Promise<void> {
+        await this.sql`
+            UPDATE users SET active = ${active}, updated_at = NOW()
+            WHERE id = ${id}
+        `;
     }
 }
 

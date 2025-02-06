@@ -24,4 +24,8 @@ export class UserService {
     async updateUser(id: number, dto: UserPostDTO): Promise<number> {
         return await this.userRepository.updateUser(id, dto);
     }
+
+    async activateOrDeactivateUser(id: number, active: boolean): Promise<void> {
+        await this.userRepository.activateOrDeactivateUser(id, active);
+    }
 }
