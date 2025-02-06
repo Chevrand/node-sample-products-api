@@ -6,5 +6,5 @@ export default interface UserRepository {
     getUserById(id: number): Promise<UserDTO>;
     createUser(dto: UserPostDTO): Promise<number>;
     updateUser(id: number, dto: UserPostDTO): Promise<number>;
-    deleteUser(id: number): Promise<any>;
+    activateOrDeactivateUser(id: number, active: boolean): Promise<void>;
 }

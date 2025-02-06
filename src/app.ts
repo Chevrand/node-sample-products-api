@@ -1,5 +1,6 @@
 import 'reflect-metadata';
 import './container/containerRegister.ts';
+import './database/createDbTables.ts';
 import express from 'express';
 import config from './config/default';
 import logger from './utils/logger'

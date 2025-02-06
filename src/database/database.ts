@@ -1,16 +1,18 @@
 import postgres from 'postgres';
 import config from '../config/default';
-import logger from './logger';
+import logger from '../utils/logger';
+import { singleton } from 'tsyringe';
 
-const DB_URI = config.dbUri;
-
+@singleton()
 class Database {
 
+    private dbUri: string;
     private sql: ReturnType<typeof postgres>;
 
     constructor() {
         try {
-            this.sql = postgres(DB_URI, {
+            this.dbUri = config.dbUri;
+            this.sql = postgres(this.dbUri, {
                 ssl: 'require',
                 idle_timeout: 10,
                 max_lifetime: 60 * 30,
@@ -32,4 +34,4 @@ class Database {
     }
 }
 
-export default new Database();
+export default Database;
